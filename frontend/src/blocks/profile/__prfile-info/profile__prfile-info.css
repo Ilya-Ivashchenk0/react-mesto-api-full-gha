@@ -1,0 +1,21 @@
+.profile__prfile-info {
+  margin: 0;
+  padding: 0;
+  max-width: 336px;
+  grid-column: 3 / 4;
+  display: grid;
+  grid-template-columns: 294px 24px;
+  grid-template-rows: 39px 18px;
+  gap: 18px 16px;
+}
+
+@media screen and (max-width: 879px) {
+  .profile__prfile-info {
+    margin-top: 22.25px;
+    max-width: 282px;
+    grid-template-columns: 65px 189px 10px 18px 38px;
+    grid-template-rows: 26px 14px;
+    gap: 14px 0;
+    justify-content: center;
+  }
+}

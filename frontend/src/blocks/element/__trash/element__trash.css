@@ -1,0 +1,13 @@
+.element__trash {
+  margin: 0;
+  padding: 0;
+  width: 18px;
+  height: 19px;
+  background-color: #ffffff00;
+  background-image: url(../../../images/trash.svg);
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
+}

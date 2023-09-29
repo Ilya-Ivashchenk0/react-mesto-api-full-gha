@@ -1,0 +1,16 @@
+.profile__avatar-container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  /* display: inline-block; */
+  width: 120px;
+  height: 120px;
+  /* box-sizing: border-box; */
+  border-radius: 50%;
+  grid-column: 1 / 2;
+  object-fit: cover;
+}
+
+.profile__avatar-container:hover .profile__avatar-button {
+  opacity: 1;
+}

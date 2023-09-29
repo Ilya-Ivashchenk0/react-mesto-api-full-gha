@@ -1,0 +1,15 @@
+.header__navigate {
+  margin-left: 24px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #A9A9A9;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 879px) {
+  .header__navigate {
+    margin-left: 0;
+  }
+}

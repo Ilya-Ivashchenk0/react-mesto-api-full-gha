@@ -1,0 +1,10 @@
+.element {
+  margin: 0 auto;
+  max-width: 282px;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 20px 19px 243px 79px;
+  grid-template-columns: calc(282px - 18px - 20px) 18px 20px;
+}

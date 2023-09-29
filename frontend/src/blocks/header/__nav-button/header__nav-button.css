@@ -1,0 +1,9 @@
+.header__nav-button {
+  margin-right: 30px;
+  background-color: transparent;
+  width: 24px;
+  height: 24px;
+  border: none;
+  display: block;
+  cursor: pointer;
+}
