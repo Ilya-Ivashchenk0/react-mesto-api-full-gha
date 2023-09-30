@@ -7,7 +7,7 @@ const loger = require('./utils/loger')
 const { login, createUser } = require('./controllers/users')
 const auth = require('./middlewares/auth')
 const errorsHandling = require('./middlewares/errorsHandling')
-const { requestLogger } = require('./middlewares/logger')
+const { requestLogger, errorLogger } = require('./middlewares/logger')
 
 const PORT = process.env.PORT || 3000
 const BD_URL = process.env.BD_URL || 'mongodb://localhost:27017/mestodb'
@@ -24,6 +24,12 @@ app.use(cors())
 app.use(loger)
 app.use(requestLogger)
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт')
+  }, 0)
+})
+
 app.post('/signin', login)
 app.post('/signup', createUser)
 
@@ -31,6 +37,8 @@ app.use(auth)
 
 app.use('/users', require('./routes/users'))
 app.use('/cards', require('./routes/cards'))
+
+app.use(errorLogger)
 
 app.use(errorsHandling)
 
