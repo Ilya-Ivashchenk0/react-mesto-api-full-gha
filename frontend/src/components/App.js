@@ -75,18 +75,7 @@
       setUserEmail('')
     }
 
-    const checkToken = () => { // если у пользователя есть токен в localStorage, эта функция проверит, действующий он или нет
-      const jwt = localStorage.getItem('token')
-      if (jwt){
-        authorize(jwt)
-          .then((res) => {
-            setLoggedIn(true)
-            navigate('/')
-            setUserEmail(res.data.email)
-          })
-          .catch(err => console.log(`Ошибка: ${err}`))
-      }
-    }
+
 
     function handleCardLike(card) { // лайк карточек
       const isLiked = card.likes.some(i => i._id === currentUser._id) // Снова проверяем, есть ли уже лайк на этой карточке
@@ -138,6 +127,18 @@
     }
 
     useEffect(() => { // проверка токена при загрузке страницы
+      const checkToken = () => { // если у пользователя есть токен в localStorage, эта функция проверит, действующий он или нет
+        const jwt = localStorage.getItem('token')
+        if (jwt){
+          authorize(jwt)
+            .then((res) => {
+              setLoggedIn(true)
+              navigate('/')
+              setUserEmail(res.data.email)
+            })
+            .catch(err => console.log(`Ошибка: ${err}`))
+        }
+      }
       checkToken()
     }, [])
 
