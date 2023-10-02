@@ -1,8 +1,8 @@
 const env = require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
-const cors = require('cors')
 const mongoose = require('mongoose')
+const cors = require('./middlewares/cors')
 const loger = require('./utils/loger')
 const { login, createUser } = require('./controllers/users')
 const auth = require('./middlewares/auth')
@@ -20,7 +20,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(cors())
+app.use(cors)
 app.use(loger)
 app.use(requestLogger)
 
