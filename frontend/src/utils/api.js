@@ -82,7 +82,7 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: `http://api.ilya-mesto.nomoredomainsrocks.ru/`,
+  baseUrl: `http://api.ilya-mesto.nomoredomainsrocks.ru`,
   headers: {
     'Content-Type': 'application/json'
   }

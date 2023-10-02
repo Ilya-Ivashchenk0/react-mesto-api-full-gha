@@ -1,4 +1,4 @@
-const BASE_URL = 'https://auth.nomoreparties.co'
+const BASE_URL = 'http://api.ilya-mesto.nomoredomainsrocks.ru'
 
 function getResponseData(res) {
   if (!res.ok) {
