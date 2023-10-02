@@ -75,8 +75,6 @@
       setUserEmail('')
     }
 
-
-
     function handleCardLike(card) { // лайк карточек
       const isLiked = card.likes.some(i => i._id === currentUser._id) // Снова проверяем, есть ли уже лайк на этой карточке
       api.changeLikeCardStatus(card._id, !isLiked) // Отправляем запрос в API и получаем обновлённые данные карточки
@@ -140,7 +138,7 @@
         }
       }
       checkToken()
-    }, [])
+    }, [navigate])
 
     useEffect(() => { // редирект на страницу входа для незалогиненных пользователей по любому маршруту
       if (!loggedIn && location.pathname !== '/sign-up') {
