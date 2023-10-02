@@ -77,6 +77,7 @@
 
     const checkToken = () => { // если у пользователя есть токен в localStorage, эта функция проверит, действующий он или нет
       const jwt = localStorage.getItem('token')
+      console.log()
       if (jwt){
         authorize(jwt)
           .then((res) => {
