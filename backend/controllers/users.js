@@ -9,7 +9,7 @@ module.exports.getAllUsers = (req, res, next) => {
 }
 
 module.exports.getUserById = (req, res, next) => {
-  const { userId } = req.params
+  const userId = req.user._id
 
   Users.findById(userId)
     .then((user) => {
@@ -82,7 +82,7 @@ module.exports.login = (req, res, next) => {
       if (!user) {
         return res.status(400).send({ message: 'Пользователь с указанным логином и паролем не найден.' })
       }
-      console.log(user)
+
       return bcrypt.compare(password, user.password)
         .then((check) => {
           if (!check) {
@@ -96,7 +96,8 @@ module.exports.login = (req, res, next) => {
 
           return res.cookie('token', token, {
             maxAge: 3600000 * 24 * 7,
-            httpOnly: true
+            httpOnly: true,
+            sameSite: true
           })
             .status(200)
             .send({ message: 'Вход выполнен успешно!' })
@@ -106,7 +107,8 @@ module.exports.login = (req, res, next) => {
 }
 
 module.exports.getUserInfo = (req, res, next) => {
-  const { userId } = req.body
+  const userId = req.body._id
+  console.log(req.body)
 
   Users.findById(userId)
     .then((user) => {
@@ -117,3 +119,5 @@ module.exports.getUserInfo = (req, res, next) => {
     })
     .catch((err) => next(err))
 }
+
+module.exports.logout = (req, res, next) => res.clearCookie('token').status(200).send({ message: 'Вы вышли из аккаунта!' })

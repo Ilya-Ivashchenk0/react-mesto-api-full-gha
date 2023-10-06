@@ -25,7 +25,6 @@ function Login({setEmailUser, handleLoggedInTrue}) {
 
     login(email, password)
       .then((res) => {
-        localStorage.setItem('token', res.token)
         setEmailUser(email)
         handleLoggedInTrue()
         navigate('/')

@@ -7,10 +7,13 @@ function Card({onClick, card, onCardLike, handleDeleteCardClick}) {
   }
 
   const currentUser = React.useContext(CurrentUserContext)
-  const isOwn = card.owner._id === currentUser._id
-  const isLiked = card.likes.some(i => i._id === currentUser._id)
+  const isOwn = card.owner === currentUser._id
+  const isLiked = () => {
+    return Array.isArray(card.likes) && card.likes.some(i => i._id === currentUser._id)
+  }
+
   const cardLikeButtonClassName = (
-    `element__button ${isLiked && 'element__button_color_black'} hover-element`
+    `element__button ${isLiked() && 'element__button_color_black'} hover-element`
   )
 
   function handleLikeClick() {
@@ -29,7 +32,7 @@ function Card({onClick, card, onCardLike, handleDeleteCardClick}) {
         <h2 className="element__title">{ card.name }</h2>
         <div className="element__like-area">
           <button onClick={ handleLikeClick } className={ cardLikeButtonClassName } type="button" id="like"></button>
-          <p className="element__likes-lenth">{ card.likes.length }</p>
+          <p className="element__likes-lenth">{ card.likes?.length || 0 }</p>
         </div>
       </div>
     </article>

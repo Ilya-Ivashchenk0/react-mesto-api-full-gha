@@ -5,8 +5,8 @@ import PopupWithForm from './PopupWithForm'
 
 function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
   const currentUser = React.useContext(CurrentUserContext)
-  const [name, setName] = useState('') // состояние и функция поля имени пользователя
-  const [description, setDescription] = useState('') // состояние и функция поля о пользователе
+  const [name, setName] = useState(currentUser.name || '') // состояние и функция поля имени пользователя
+  const [description, setDescription] = useState(currentUser.about || '') // состояние и функция поля о пользователе
   const [nameError, setNameError] = useState('') // текст ошибки для поля name
   const [descriptionError, setDescriptionError] = useState('') // текст ошибки для поля description
 
@@ -30,8 +30,10 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
   }
 
   useEffect(() => {
-    setName(currentUser.name)
-    setDescription(currentUser.about)
+    if (currentUser.name && currentUser.about) {
+      setName(currentUser.name)
+      setDescription(currentUser.about)
+    }
     setNameError('')
     setDescriptionError('')
   }, [currentUser, isOpen])

@@ -76,24 +76,20 @@
     }
 
     const checkToken = () => { // если у пользователя есть токен в localStorage, эта функция проверит, действующий он или нет
-      const jwt = localStorage.getItem('token')
-      console.log()
-      if (jwt){
-        authorize(jwt)
-          .then((res) => {
-            setLoggedIn(true)
-            navigate('/')
-            setUserEmail(res.data.email)
-          })
-          .catch(err => console.log(`Ошибка: ${err}`))
-      }
+      authorize()
+        .then((res) => {
+          setLoggedIn(true)
+          navigate('/')
+          setUserEmail(res.data.email)
+        })
+        .catch(err => console.log(`Ошибка: ${err}`))
     }
 
     function handleCardLike(card) { // лайк карточек
-      const isLiked = card.likes.some(i => i._id === currentUser._id) // Снова проверяем, есть ли уже лайк на этой карточке
+      const isLiked = card.likes.some(i => i === currentUser._id) // Снова проверяем, есть ли уже лайк на этой карточке
       api.changeLikeCardStatus(card._id, !isLiked) // Отправляем запрос в API и получаем обновлённые данные карточки
         .then((newCard) => {
-          setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+          setCards((state) => state.map((c) => c._id === card._id ? newCard.card : c))
         })
         .catch(err => console.log(`Ошибка: ${err}`))
     }
@@ -111,7 +107,7 @@
     function handleUpdateUser({name, about}) { // обновление данных пользователя
       api.setUserInfo({name, about})
         .then((data) => {
-          setCurrentUser(data)
+          setCurrentUser(data.data)
           handleCloseAllPopups()
         })
         .catch(err => console.log(`Ошибка: ${err}`))
@@ -122,7 +118,7 @@
         .then((data) => {
           setCurrentUser(state => ({
             ...state,
-            avatar: data.avatar
+            avatar: data.data.avatar
           }))
           handleCloseAllPopups()
         })
@@ -132,7 +128,7 @@
     function handleAddPlaceSubmit({title, url}) { // добавление новой карточки
       api.addNewCard({title, url})
         .then((newCard) => {
-          setCards([newCard, ...cards])
+          setCards([newCard.card, ...cards])
           handleCloseAllPopups()
         })
         .catch(err => console.log(`Ошибка: ${err}`))
@@ -152,7 +148,7 @@
       if (loggedIn) {
         api.getUserInfo() // загрузка данных пользователя
         .then((data) => {
-          setCurrentUser(data)
+          setCurrentUser(data.data)
         })
         .catch(err => console.log(`Ошибка: ${err}`))
       }
@@ -161,7 +157,9 @@
     useEffect(() => {
       if (loggedIn) {
         api.getInitialCards() // загрузка карточек
-          .then(cards => setCards(cards))
+          .then((cards) => {
+            setCards(cards)
+          })
           .catch(err => console.log(`Ошибка: ${err}`))
       }
     }, [loggedIn])

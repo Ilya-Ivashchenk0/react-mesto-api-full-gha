@@ -6,18 +6,13 @@ const handleAuthError = (res) => {
     .send({ message: 'Необходима авторизация' })
 }
 
-const extractBearerToken = (header) => header.replace('Bearer ', '')
-
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers
+  const { token } = req.cookies
 
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    return res
-      .status(401)
-      .send({ message: 'Необходима авторизация' })
+  if (!token) {
+    return handleAuthError(res)
   }
 
-  const token = extractBearerToken(authorization)
   let payload
 
   try {

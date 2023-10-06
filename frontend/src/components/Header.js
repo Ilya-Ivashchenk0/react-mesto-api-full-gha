@@ -4,6 +4,7 @@ import logo from '../images/logo.svg'
 import burger from '../images/burger.svg'
 import close from '../images/close.svg'
 import NavBar from './NavBar'
+import { logout } from '../utils/auth'
 
 function Header({handleLoggedInFalse, resetEmail, userEmail}) {
   const navigate = useNavigate()
@@ -16,10 +17,13 @@ function Header({handleLoggedInFalse, resetEmail, userEmail}) {
   }
 
   function logOut() {
-    handleLoggedInFalse()
-    localStorage.removeItem('token')
-    resetEmail()
-    navigate('/sign-in', { replace: true })
+    logout()
+      .then((res) => {
+        handleLoggedInFalse()
+        resetEmail()
+        navigate('/sign-in', { replace: true })
+      })
+      .catch(err => console.log(`Ошибка: ${err}`))
   }
 
   useEffect(() => {
