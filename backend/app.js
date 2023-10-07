@@ -7,8 +7,9 @@ const cors = require('./middlewares/cors')
 const loger = require('./utils/loger')
 const { login, createUser, logout } = require('./controllers/users')
 const auth = require('./middlewares/auth')
-const errorsHandling = require('./middlewares/errorsHandling')
+const errors = require('./errors/errors')
 const { requestLogger, errorLogger } = require('./middlewares/logger')
+const DefaultError = require('./errors/defaultError')
 
 const PORT = process.env.PORT || 3000
 const BD_URL = process.env.DB_URL || 'mongodb://localhost:27017/mestodb'
@@ -43,11 +44,11 @@ app.use('/cards', require('./routes/cards'))
 app.use('/logout', logout)
 
 app.use((req, res, next) => {
-  res.status(404).json({ message: 'Карточка или пользователь не найдены, или был запрошен несуществующий роут.' })
+  throw new DefaultError('Карточка или пользователь не найдены, или был запрошен несуществующий роут.', 404)
 })
 
 app.use(errorLogger)
 
-app.use(errorsHandling)
+app.use(errors)
 
 app.listen(PORT, () => console.log('Server listening on port:', PORT))

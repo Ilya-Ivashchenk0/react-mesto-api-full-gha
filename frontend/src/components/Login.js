@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../utils/auth'
 import { validateEmail, validatePassword } from '../utils/validation'
+import InfoTooltip from './InfoTooltip'
 
 function Login({setEmailUser, handleLoggedInTrue}) {
   const navigate = useNavigate()
@@ -9,6 +10,8 @@ function Login({setEmailUser, handleLoggedInTrue}) {
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [isTooltipOpen, setTooltipOpen] = useState(false)
+  const [successRegister, setSuccessRegister] = useState(false)
 
   function handleChangeEmail(e) {
     setEmail(e.target.value)
@@ -25,13 +28,19 @@ function Login({setEmailUser, handleLoggedInTrue}) {
 
     login(email, password)
       .then((res) => {
+        setSuccessRegister(true)
+        setTooltipOpen(true)
         setEmailUser(email)
         handleLoggedInTrue()
         navigate('/')
         setEmailError('')
         setPasswordError('')
       })
-      .catch(err => console.log(`Ошибка: ${err}`))
+      .catch((err) => {
+        setTooltipOpen(true)
+        setSuccessRegister(false)
+        console.log(err)
+      })
   }
 
   return (
@@ -73,6 +82,7 @@ function Login({setEmailUser, handleLoggedInTrue}) {
           Войти
         </button>
       </form>
+      <InfoTooltip isOpen={isTooltipOpen} successRegister={successRegister} setTooltipOpen={setTooltipOpen} />
     </div>
   )
 }

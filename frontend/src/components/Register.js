@@ -33,8 +33,8 @@ function Register() {
         setPasswordError('')
       })
       .catch(() => {
-        setTooltipOpen(true)
         setSuccessRegister(false)
+        setTooltipOpen(true)
       })
   }
 
