@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Users = require('../models/user')
+const LostUserError = require('../errors/lost-user-error')
+const UserDataError = require('../errors/user-data-error')
+const UserIdError = require('../errors/users-id-error')
 
 module.exports.getAllUsers = (req, res, next) => {
   Users.find({})
@@ -14,7 +17,7 @@ module.exports.getUserById = (req, res, next) => {
   Users.findById(userId)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: 'Пользователь по указанному _id не найден.' })
+        return next(new UserIdError('Пользователь по указанному _id не найден.', 404))
       }
       return res.send({ data: user })
     })
@@ -31,7 +34,7 @@ module.exports.createUser = (req, res, next) => {
   } = req.body
 
   if (!email && !password) {
-    return res.status(400).send({ message: 'Переданы неправильные почта или пароль.' })
+    return next(new UserDataError('Переданы неправильные почта или пароль.', 400))
   }
 
   return bcrypt.hash(password, 10)
@@ -74,7 +77,7 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body
 
   if (!email && !password) {
-    return res.status(400).send({ message: 'Переданы неправильные почта или пароль.' })
+    return next(new UserDataError('Переданы неправильные почта или пароль.', 400))
   }
 
   return Users.findOne({ email }).select('+password')
@@ -86,7 +89,7 @@ module.exports.login = (req, res, next) => {
       return bcrypt.compare(password, user.password)
         .then((check) => {
           if (!check) {
-            return res.status(401).send({ message: 'Переданы неправильные почта или пароль.' })
+            return next(new UserDataError('Переданы неправильные почта или пароль.', 400))
           }
           const token = jwt.sign(
             { _id: user._id },
@@ -113,7 +116,7 @@ module.exports.getUserInfo = (req, res, next) => {
   Users.findById(userId)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: 'Пользователь по указанному _id не найден.' })
+        return next(new LostUserError('Пользователь по указанному _id не найден.', 404))
       }
       return res.status(200).send({ data: user })
     })

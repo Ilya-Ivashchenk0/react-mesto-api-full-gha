@@ -9,12 +9,10 @@ function Card({onClick, card, onCardLike, handleDeleteCardClick}) {
   const currentUser = React.useContext(CurrentUserContext)
   const isOwn = card.owner === currentUser._id
   const isLiked = () => {
-    return Array.isArray(card.likes) && card.likes.some(i => i._id === currentUser._id)
+    return Array.isArray(card.likes) && card.likes.some(i => i === currentUser._id)
   }
 
-  const cardLikeButtonClassName = (
-    `element__button ${isLiked() && 'element__button_color_black'} hover-element`
-  )
+  const cardLikeButtonClassName = `element__button ${isLiked() ? 'element__button_color_black' : ''} hover-element`
 
   function handleLikeClick() {
     onCardLike(card)

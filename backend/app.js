@@ -9,7 +9,7 @@ const { login, createUser, logout } = require('./controllers/users')
 const auth = require('./middlewares/auth')
 const errors = require('./errors/errors')
 const { requestLogger, errorLogger } = require('./middlewares/logger')
-const DefaultError = require('./errors/defaultError')
+const DefaultError = require('./errors/default-error')
 
 const PORT = process.env.PORT || 3000
 const BD_URL = process.env.DB_URL || 'mongodb://localhost:27017/mestodb'

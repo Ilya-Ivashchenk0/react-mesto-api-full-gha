@@ -1,4 +1,5 @@
 const Cards = require('../models/card')
+const CardIdError = require('../errors/card-id-error')
 
 module.exports.getAllCards = (req, res, next) => {
   Cards.find({})
@@ -18,7 +19,7 @@ module.exports.createCard = (req, res, next) => {
 module.exports.deleteCardById = (req, res, next) => Cards.findByIdAndRemove(req.params.cardId)
   .then((card) => {
     if (!card) {
-      return res.status(404).send({ message: 'Карточка с указанным _id не найдена.' })
+      return next(new CardIdError('Карточка с указанным _id не найдена.', 404))
     }
     if (req.user._id !== card.owner) {
       return res.status(200).send({ message: 'У вас нет прав для удаления этой карточки.' })
@@ -34,7 +35,7 @@ module.exports.addLikeCard = (req, res, next) => Cards.findByIdAndUpdate(
 )
   .then((card) => {
     if (!card) {
-      return res.status(404).send({ message: 'Передан несуществующий _id карточки.' })
+      return next(new CardIdError('Карточка с указанным _id не найдена.', 404))
     }
     return res.send({ card })
   })
@@ -47,7 +48,7 @@ module.exports.deleteLikeCard = (req, res, next) => Cards.findByIdAndUpdate(
 )
   .then((card) => {
     if (!card) {
-      return res.status(404).send({ message: 'Передан несуществующий _id карточки.' })
+      return next(new CardIdError('Карточка с указанным _id не найдена.', 404))
     }
     return res.send({ card })
   })
