@@ -6,11 +6,3 @@
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
 Адрес репозитория: https://github.com/Ilya-Ivashchenk0/react-mesto-api-full-gha
-
-## Ссылки на проект
-
-IP-адрес 158.160.121.188
-
-Frontend https://ilya-mesto.nomoredomainsrocks.ru/
-
-Backend https://api.ilya-mesto.nomoredomainsrocks.ru/
